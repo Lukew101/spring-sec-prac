@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  postgres:
+    image: 'postgres:10'
+    container_name: 'salt-postgres'
+    networks:
+      - postgres-network
+    environment:
+      - POSTGRES_USER=salt
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=saltdb
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: always
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 1234:8080
+networks:
+  postgres-network:
+    driver: bridge
