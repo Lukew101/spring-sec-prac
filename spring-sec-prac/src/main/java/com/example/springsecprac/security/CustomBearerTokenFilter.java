@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 
 @Component
 public class CustomBearerTokenFilter extends OncePerRequestFilter {
-
+    // Filter is called on every http request.
     private final JwtValidation validation;
     private static final String JWT_TOKEN_COOKIE_NAME = "JwtToken";
     private final UserRepository userRepository;
@@ -41,12 +41,17 @@ public class CustomBearerTokenFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
+        // This call is to check if there is a cookie name "JwtToken"
         var jwtTokenString = getJwtTokenFromRequestCookie(request);
 
         if (jwtTokenString.isPresent()) {
             System.out.println(jwtTokenString.get());
             try {
+                // Validates token
                 Jwt jwt = validation.validateJWTString(jwtTokenString.get());
+                // Creates OidcUser using Jwt for authentication and authorization purposes
+                // OIDC user is a data structure representing a user's identity within an application and is generated during the OpenID Connect authentication process.
+                // Ensure secure access to resources and personalized user experiences.
                 OidcUser user = createOidcUserFromJwt(jwt);
                 redirectUserWithNoRegisteredAccountOtherWiseSetAuthenticated(user, response);
             } catch (JwtException e) {
@@ -56,6 +61,7 @@ public class CustomBearerTokenFilter extends OncePerRequestFilter {
                 return;
             }
         }
+        // Ensures request continues to be processed by other filters to reach end of request
         filterChain.doFilter(request, response);
     }
 
@@ -76,8 +82,9 @@ public class CustomBearerTokenFilter extends OncePerRequestFilter {
 
     private void redirectUserWithNoRegisteredAccountOtherWiseSetAuthenticated
             (OidcUser user, HttpServletResponse response) throws IOException {
-        var echoBoardUser = userRepository.getUserBySubject(user.getSubject());
-        if (echoBoardUser.isEmpty()) {
+        var appUser = userRepository.getUserBySubject(user.getSubject());
+        if (appUser.isEmpty()) {
+            // If there is no user, it will redirect them to the home page (should be a login page)
             response.sendRedirect("http://localhost:3000");
             return;
         }

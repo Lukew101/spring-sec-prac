@@ -16,10 +16,8 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 @Component
 public class JwtValidation {
-
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
-
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
     private OidcIdTokenValidator validator;
@@ -41,8 +39,9 @@ public class JwtValidation {
                 .userNameAttributeName(IdTokenClaimNames.SUB)
                 .clientName("Google")
                 .build();
-
+        // Ensures that the ID token (JWT) received complies with OpenID connect standards
         validator = new OidcIdTokenValidator(clientRegistration);
+        // Validates JWTs issued by google
         jwtDecoder = NimbusJwtDecoder.withJwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
                 .build();
     }
