@@ -3,31 +3,49 @@ package com.example.springsecprac.model;
 import jakarta.persistence.*;
 
 @Entity
-public class User {
+public class UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name= "id", nullable = false)
-    private Long id;
-    private String name;
+    private String subject;
+    @Column(name= "first_name")
+    private String firstName;
+    @Column(name= "last_name")
+    private String lastName;
     private String email;
+    private String picture;
 
-    public User() {
+    public UserDetails() {
     }
 
-    public Long getId() {
-        return id;
+    public UserDetails(String subject, String firstName, String lastName, String email, String picture) {
+        this.subject = subject;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.picture = picture;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getSubject() {
+        return subject;
     }
 
-    public String getName() {
-        return name;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -36,5 +54,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }
