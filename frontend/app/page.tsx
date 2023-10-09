@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 type UserDetails = {
   firstName: string,
   lastName: string,
-  email: string
+  email: string,
+  profilePicture: string
 }
 
 export default function Home() {
-  const existingToken = Cookies.get("JwtToken");
   const [userDetails, setUserDetails] = useState<UserDetails>();
   
   useEffect(() => {
@@ -38,8 +38,6 @@ export default function Home() {
 
   return (
     <div>
-    <h2>Personalized Page</h2>
-    <a href='http://localhost:8080/login/oauth2/code/google'>Log in with Google</a>
     {userDetails ? (
       <div>
         <p>First Name: {userDetails.firstName}</p>
