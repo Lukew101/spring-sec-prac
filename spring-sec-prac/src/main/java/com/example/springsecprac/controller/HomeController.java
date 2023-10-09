@@ -2,6 +2,9 @@ package com.example.springsecprac.controller;
 
 import com.example.springsecprac.model.UserDetails;
 import com.example.springsecprac.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
