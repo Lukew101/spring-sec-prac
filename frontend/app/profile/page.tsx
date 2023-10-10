@@ -2,8 +2,10 @@
 import { useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 import { useQuery } from '@tanstack/react-query';
-import jwtDecode from "jwt-decode"; 
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import jwtDecode from "jwt-decode";
+
 
 type UserDetails = {
   firstName: string,
@@ -14,6 +16,8 @@ type UserDetails = {
 
 export default function Home() {
   const [userDetails, setUserDetails] = useState<UserDetails>();
+
+  // const [cookies, setCookie] = useCookies(["JwtToken"][0]);
   
   useEffect(() => {
     async function fetchData() {
@@ -23,7 +27,8 @@ export default function Home() {
         });
   
         if (!response.ok) {
-          throw new Error(`HTTP Error! Status: ${response.status}`);
+          const text = await response.text();
+          console.error(`HTTP Error! Status: ${response.status}, Response: ${text}`);
         }
         const data: UserDetails = await response.json();
         console.log(data);
@@ -32,7 +37,11 @@ export default function Home() {
         console.error("Error fetching data: " + error);
       }
     }
-    fetchData(); 
+    fetchData();
+//     console.log("Cookies:", cookies);
+// console.log("Decoding token:", cookies.JwtToken);
+// var decodedToken = jwtDecode(cookies.JwtToken);
+// console.log("Decoded token:", decodedToken);
   }, []);
 
   const handleLogout = async () => {

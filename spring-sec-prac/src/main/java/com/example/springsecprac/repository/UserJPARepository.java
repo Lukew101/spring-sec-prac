@@ -1,11 +1,13 @@
 package com.example.springsecprac.repository;
 
-import com.example.springsecprac.model.UserDetails;
+import com.example.springsecprac.model.AppUser;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface UserJPARepository extends CrudRepository<UserDetails, String> {
+public interface UserJPARepository extends CrudRepository<AppUser, String> {
 
-    Optional<UserDetails> findBySubject(String userSubject);
+    Optional<AppUser> findBySubject(String userSubject);
+
+    AppUser findByEmail(String email);
 }
